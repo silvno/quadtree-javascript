@@ -7,6 +7,7 @@
         <script type="text/javascript" src="http://programmiertier.ch/lab/canvas/libcanvas.js"></script>
     </head>
     <body>
+        <div id="canv" >
         <h1>Collision Detection: QuadTree vs. Brute Force</h1>
         <canvas id="quadtree" width="500" height="500" >
                 Your Browser does not support HTML5
@@ -16,9 +17,10 @@
             <p>Objects in current region: <span id="objgroup" >0</span></p>
             <p>Brute force collision checks: <span id="brute" >0</span></p>
             <p>Collision checks with quadtree: <span id="quad" >0</span></p>
-            <input type="button" id="clear" value="Clear QuadTree">
-            <input type="button" id="in_sel" value="Switch to Select">
-        <div>
+            <input type="button" id="clear" value="Clear QuadTree">         
+            <input type="button" id="in_sel" value="Switch to select">
+        </div>
+        </div>
         <div id="text" >
             <h2>Performance</h2>
             <p>The performance gain using the quadtree data structure depends on the geographic 

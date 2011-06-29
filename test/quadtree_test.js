@@ -50,7 +50,7 @@ var in_sel = document.getElementById('in_sel');
 in_sel.onclick = function (event) {
     insert = !insert;
     if (insert) {
-        in_sel.value = "Switch to Select";
+        in_sel.value = "Switch to select";
     }
     else {
         in_sel.value = "Switch to insert";

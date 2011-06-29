@@ -6,10 +6,12 @@
 	margin-bottom:20px;
 }
 
-h1 {
-	border-bottom: 1px solid #333;
-}
+h1 { border-bottom: 1px solid #333; }
 
-#text {
-	clear:both;
-}
+h2 { border-top: 1px solid #333; }
+
+#text { clear:both; }
+
+
+
+

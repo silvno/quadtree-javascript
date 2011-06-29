@@ -1,7 +1,7 @@
 /*
  * QuadTree Implementation in JavaScript
- * @version 0.2 
- * 
+ * @silflow
+ *
  * Usage:
  * To create a new empty Quadtree, do this:
  * var tree = QUAD.tree(args)
