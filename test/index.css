@@ -1,0 +1,15 @@
+﻿canvas {
+    border:1px solid #333;
+	text-align:center;
+	float:left;
+	margin-right:10px;
+	margin-bottom:20px;
+}
+
+h1 {
+	border-bottom: 1px solid #333;
+}
+
+#text {
+	clear:both;
+}

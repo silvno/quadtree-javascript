@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>QuadTree Demo</title>
+        <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="index.css" >
+        <script type="text/javascript" src="http://programmiertier.ch/lab/canvas/libcanvas.js"></script>
+    </head>
+    <body>
+        <h1>Collision Detection: QuadTree vs. Brute Force</h1>
+        <canvas id="quadtree" width="500" height="500" >
+                Your Browser does not support HTML5
+        </canvas> 
+        <div>		
+            <p>Objects on the field: <span id="objtotal">0</span></p>
+            <p>Objects in current group: <span id="objgroup" >0</span></p>
+            <p>Brute force collision checks: <span id="brute" >0</span></p>
+            <p>Collision checks with quadtree: <span id="quad" >0</span></p>
+            <input type="button" id="clear" value="Clear QuadTree">
+        <div>
+        <div id="text" >
+            <h2>Performance</h2>
+            <p>The performance gain using the quadtree data structure depends on the geographic 
+            location of the objects. <strong>Worst case complexity (All objects are 
+            in the same region) is O(n^2)</strong>, excactly the same as brute force.
+            In addition, the quadtree has to be build freshly for each set of collision checks. 
+            As a consequence, brute force may actually be faster in some (<strong>very few</strong>)
+            scenarios. However, most of the time, collision detection with quadtree will be
+            significantly faster.</p>
+        <div>	
+        <script type="text/javascript" src="../quadtree.js"></script>
+        <script type="text/javascript" src="./quadtree_test.js"></script>
+    </body>
+</html>
