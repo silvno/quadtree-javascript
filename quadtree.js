@@ -1,10 +1,22 @@
 /*
  * QuadTree Implementation in JavaScript
- * @version 0.1 
+ * @version 0.2 
  * 
  * Usage:
  * To create a new empty Quadtree, do this:
- * var tree = QUAD.tree()
+ * var tree = QUAD.tree(args)
+ * 
+ * args = {
+ *    // mandatory fields
+ *    x : x coordinate
+ *    y : y coordinate
+ *    w : width
+ *    h : height
+ *  
+ *    // optional fields
+ *    maxChildren : max children per node
+ *    maxDepth : max depth of the tree
+ *}
  * 
  * Available methods:
  * tree.insert() takes arrays or single items
@@ -31,9 +43,8 @@ QUAD.node = function (x, y, w, h, maxChildren, maxDepth) {
 
     return {
         
-        // bounds of the node
-        x : x, // top left
-        y : y, // top right
+        x : x, // top left point
+        y : y, // top right point
         w : w, // width
         h : h, // height
         depth : 0, // depth level of the node
@@ -201,13 +212,21 @@ QUAD.node = function (x, y, w, h, maxChildren, maxDepth) {
 };
 
 /*
- * Check the top of the file. 
+ * Check the top of the file.
  */
-QUAD.tree = function (x, y, width, height, maxChildren, maxDepth) {
+
+//QUAD.tree = function (x, y, width, height, maxChildren, maxDepth) {
+QUAD.tree = function(args) {
+    
+    // assign default values
+    args.maxChildren = args.maxChildren || 2;
+    args.maxDepth = args.maxDepth || 4;
     
     return {
     
-        root : (function () { return QUAD.node(x, y, width, height, maxChildren, maxDepth); }()),
+        root : (function () { 
+            return QUAD.node(args.x, args.y, args.w, args.h, args.maxChildren, args.maxDepth ); 
+        }()),
 
         insert : function (item) {
             
