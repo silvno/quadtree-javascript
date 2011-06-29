@@ -17,6 +17,7 @@
             <p>Brute force collision checks: <span id="brute" >0</span></p>
             <p>Collision checks with quadtree: <span id="quad" >0</span></p>
             <input type="button" id="clear" value="Clear QuadTree">
+            <input type="button" id="in_sel" value="Switch to Select">
         <div>
         <div id="text" >
             <h2>Performance</h2>
@@ -24,7 +25,7 @@
             location of the objects. <strong>Worst case complexity (All objects are 
             in the same region) is O(n^2)</strong>, excactly the same as brute force.
             Plus, the quadtree has to be build freshly for each set of collision checks. This also takes
-            some time. As a consequence, brute force may actually be faster in some (<strong>very few</strong>)
+            some time. As a consequence, brute force may actually be less expensive in some (<strong>very few</strong>)
             scenarios. However, most of the time, collision detection with quadtree will be
             significantly faster.</p>
         <div>	
