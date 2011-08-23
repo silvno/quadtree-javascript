@@ -1,6 +1,5 @@
 /*
  * QuadTree Implementation in JavaScript
- * @silflow
  *
  * Usage:
  * To create a new empty Quadtree, do this:
@@ -28,8 +27,8 @@
  * tree.clear() removes all items from the quadtree.
  */
 
-
-var QUAD = Object.create(null); // init global
+ // all quadtree object are stored in this global var
+var QUAD = Object.create(null); 
 
 /*
  * Node prototype. You should never create a node manually. the algorithm takes
@@ -53,14 +52,13 @@ QUAD.node = function (x, y, w, h, maxChildren, maxDepth) {
          * returns an array of all objects, that are in the same region or 
          * in overlapping regions
          */      
-        retrieve : function (item) {
-            
+        retrieve : function (item) {          
             // check if node has subnodes
             if (nodes.length) {     
-
+                // call retrieve on all subnodes
                 return children.concat(overlapping, nodes[this.findNode(item)].retrieve(item));
             }
-          
+            
             return children.concat(overlapping);    
         },
         
@@ -80,18 +78,19 @@ QUAD.node = function (x, y, w, h, maxChildren, maxDepth) {
             var i, k, node; 
 			
             if (nodes.length) {
-                
+                // get the node in which the item fits best
                 i = this.findNode(item);
-                node = nodes[i];   
-				
+                node = nodes[i];   			
                 // check if the node fits the item
                 if (item.x >= node.x && item.y >= node.y &&
                     item.x + item.w <= node.x + node.w &&  
                     item.y + item.h <= node.y + node.h) {                  
-                    
+                    // insert the item 
                     nodes[i].insert(item);
-					
+				
                 } else {
+                    // if the item does not fit, push it into the 
+                    // overlapping array
                     overlapping.push(item);
                 }
 				
@@ -99,8 +98,7 @@ QUAD.node = function (x, y, w, h, maxChildren, maxDepth) {
             }
 			
             children.push(item);   
-            k = children.length;   
-            
+            k = children.length;             
             //divide the node if maxChildren is exceeded and maxDepth is not reached
             if (k > maxChildren && this.depth < maxDepth) {               
                 this.divide();
@@ -123,24 +121,24 @@ QUAD.node = function (x, y, w, h, maxChildren, maxDepth) {
          * 3 => bottm right
          */       
         findNode : function (item) {
-        
-            if (item.x < x + (w / 2)) { // left              
-             
-                if (item.y < y + (h / 2)) { // top                 
+            // left
+            if (item.x < x + (w / 2)) {               
+                // top 
+                if (item.y < y + (h / 2)) {                 
                     return 0;
                 }         
-                
-                else { // bottom
+                // bottom
+                else { 
                     return 2;
                 }
-                          
-            } else { // right    
-                
-                if (item.y < y + (h / 2)) { // top                
+            // right               
+            } else {    
+                 // top  
+                if (item.y < y + (h / 2)) {              
                     return 1;
                 }              
-                
-                else { // bottom
+                // bottom
+                else { 
                     return 3;
                 } 
             }
@@ -152,25 +150,19 @@ QUAD.node = function (x, y, w, h, maxChildren, maxDepth) {
          */
         divide : function () {
             
-            var width, height, i, k;
-            
-            //dimensions of the new nodes
+            var width, height, i, k;          
+            // set dimensions of the new nodes
             width = (w / 2); 
-            height = (h / 2);
-			
-            //top left node
-            nodes.push(QUAD.node(this.x, this.y, width, height, maxChildren, maxDepth));
-			
-            //top right node 
-            nodes.push(QUAD.node(this.x + width, this.y, width, height, maxChildren, maxDepth));
-			
-            //bottom left node
-            nodes.push(QUAD.node(this.x, this.y + height, width, height, maxChildren, maxDepth));
-			
-            //bottom right node
-            nodes.push(QUAD.node(this.x + width, this.y + height, width, height, maxChildren, maxDepth));
-			
-            //increment depth of the nodes
+            height = (h / 2);			
+            // create top left node
+            nodes.push(QUAD.node(this.x, this.y, width, height, maxChildren, maxDepth));			
+            // create top right node 
+            nodes.push(QUAD.node(this.x + width, this.y, width, height, maxChildren, maxDepth));			
+            // create bottom left node
+            nodes.push(QUAD.node(this.x, this.y + height, width, height, maxChildren, maxDepth));			
+            // create bottom right node
+            nodes.push(QUAD.node(this.x + width, this.y + height, width, height, maxChildren, maxDepth));			
+            // increment depth of the nodes
             k = nodes.length;
             for (i = 0; i < k; i++) {            
                 nodes[i].depth = this.depth + 1;       
