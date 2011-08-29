@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <canvas id="ex1-canv" width="800" height="500"></canvas> 
+        <div id="ex1-controls">
+            <label for="ex1-regions" >
+                <input type="checkbox" id="ex1-regions" checked>Show QuadTree Regions
+            </label>
+            <label for="250">
+                <input type="radio" name="ex1-elements" value="250" id="250" checked /> 250 elements
+            </label>
+            <label for="500">
+                <input type="radio" name="ex1-elements" value="500" id="500" /> 500 elements 
+            </label>
+            <label for="1000">
+                <input type="radio" name="ex1-elements" value="1000" id="1000" /> 1000 elements 
+            </label>
+            <div>
+            <label for="ex1-type">
+                <input type="checkbox" id="ex1-type" checked /> Use QuadTree for collision detection 
+            </label>
+            </div>
+        </div>
+        
+        <div id="ex1-stats">
+            <span>Collision Checks / Step: </span><span id ="ex1-checks"></span><br />
+            <span>FPS: </span><span id ="ex1-fps"></span>
+            
+        </div>
+        <script type="text/javascript" src="../quadtree.js"></script>
+        <script type="text/javascript" src="./ex1.js"></script>
+    </body>
+</html>
