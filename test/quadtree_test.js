@@ -12,7 +12,7 @@ function addEvent(el, evt, fn) {
 
 // init canvas and quadtree
 var ctx = init_canvas('quadtree');
-var tree = QUAD.tree({
+var tree = QUAD.init({
     x : 0,
     y : 0,
     w : ctx.width,

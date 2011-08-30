@@ -83,7 +83,7 @@ EX1.init = function (numberOfElements) {
     EX1.width = canvas.width;
     // init the quadtree
     args = {x : 0, y : 0, h : EX1.height, w : EX1.width, maxChildren : 5, maxDepth : 5};
-    EX1.tree = QUAD.tree(args);
+    EX1.tree = QUAD.init(args);
     // init the array that holds the objects
     EX1.elements = [];
     // fill the array with fresh objects
