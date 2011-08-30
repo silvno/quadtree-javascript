@@ -38,8 +38,9 @@ QUAD.init = function(args) {
     // assign default values
     args.maxChildren = args.maxChildren || 2;
     args.maxDepth = args.maxDepth || 4;
+    
     /*
-     * Node creator. ould never create a node manually. the algorithm takes
+     * Node creator. You should never create a node manually. the algorithm takes
      * care of that for you.
      */    
     node = function (x, y, w, h, maxChildren, maxDepth) {
@@ -48,6 +49,7 @@ QUAD.init = function(args) {
             overlapping = [], //holds all items that don't fit into a smaller node
             nodes = []; // holds all subnodes
 
+        // returns a fresh node object
         return {
 
             x : x, // top left point
