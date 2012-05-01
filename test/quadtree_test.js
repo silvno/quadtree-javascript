@@ -66,6 +66,12 @@ document.getElementById('quadtree').onclick = function (event){
     if (event.button == 3) {
         alert(event.button);
     }
+
+    // clear canvas
+    ctx.beginPath();
+    ctx.clear();
+    ctx.closePath();
+
     for (var i = 0; i < objects.length; i++) {
         objects[i].draw();  // draw the objects
     }
@@ -98,12 +104,6 @@ document.getElementById('quadtree').onclick = function (event){
 
     var quadcount = 0;
     var len = objects.length;
-
-    // clear canvas
-    ctx.beginPath();
-    ctx.clear();
-    ctx.closePath();
-
 
     for (i = 0; i < len; i++) {
         // count quadtree collision checks
