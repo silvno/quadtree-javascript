@@ -21,8 +21,8 @@
  * tree.insert() takes arrays or single items
  * every item must have a .x and .y property. if not, the tree will break.
  *
- * tree.retrieve(item) returns an array of all objects that are in the same
- * region or overlapping.
+ * tree.retrieve(item, callback) calls the callback for all objects that are in
+ * the same region or overlapping.
  *
  * tree.clear() removes all items from the quadtree.
  */
@@ -44,7 +44,7 @@ QUAD.init = function(args) {
     args.maxChildren = args.maxChildren || 2;
     args.maxDepth = args.maxDepth || 4;
 
-    /*
+    /**
      * Node creator. You should never create a node manually. the algorithm takes
      * care of that for you.
      */
@@ -79,7 +79,7 @@ QUAD.init = function(args) {
                 }
             },
 
-            /*
+            /**
              * Adds a new Item to the node.
              *
              * If the node already has subnodes, the item gets pushed down one level.
@@ -96,7 +96,7 @@ QUAD.init = function(args) {
 
                 if (nodes.length) {
                     // get the node in which the item fits best
-                    i = this.findNode(item)
+                    i = this.findInsertNode(item)
                     if (i === PARENT) {
                         // if the item does not fit, push it into the
                         // children array
@@ -116,7 +116,7 @@ QUAD.init = function(args) {
             /**
              * Find a node the item should be inserted in.
              */
-            findNode : function (item) {
+            findInsertNode : function (item) {
                 // left
                 if (item.x + item.w < x + (w / 2)) {
                     if (item.y + item.h < y + (h / 2)) return TOP_LEFT;
@@ -151,9 +151,10 @@ QUAD.init = function(args) {
                 }
             },
 
-            /*
+            /**
              * Divides the current node into four subnodes and adds them
-             * to the nodes array of the current node.
+             * to the nodes array of the current node. Then reinserts all
+             * children.
              */
             divide : function () {
 
@@ -179,8 +180,8 @@ QUAD.init = function(args) {
                 }
             },
 
-            /*
-             * clears the node and all its subnodes
+            /**
+             * Clears the node and all its subnodes.
              */
             clear : function () {
                 for (var i = 0; i < nodes.length; i++) nodes[i].clear();
