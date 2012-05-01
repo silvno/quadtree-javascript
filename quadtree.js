@@ -92,7 +92,7 @@ QUAD.init = function(args) {
              */
             insert : function (item) {
 
-                var i, k;
+                var i;
 
                 if (nodes.length) {
                     // get the node in which the item fits best
@@ -106,9 +106,8 @@ QUAD.init = function(args) {
                     }
                 } else {
                     children.push(item);
-                    k = children.length;
                     //divide the node if maxChildren is exceeded and maxDepth is not reached
-                    if (k > maxChildren && this.depth < maxDepth) {
+                    if (children.length > maxChildren && this.depth < maxDepth) {
                         this.divide();
                     }
                 }
@@ -158,7 +157,7 @@ QUAD.init = function(args) {
              */
             divide : function () {
 
-                var width, height, i, k, oldChildren;
+                var width, height, i, oldChildren;
                 var childrenDepth = this.depth + 1;
                 
                 // set dimensions of the new nodes
@@ -175,7 +174,7 @@ QUAD.init = function(args) {
 
                 oldChildren = children;
                 children = [];
-                for (i = 0; i < k; i++) {
+                for (i = 0; i < oldChildren.length; i++) {
                     this.insert(oldChildren[i]);
                 }
             },
