@@ -18,7 +18,7 @@ var tree = QUAD.init({
     w : ctx.width,
     h : ctx.height,
     maxChildren : 1
-    });
+});
 tree.clear();
 var objects = [];
 ctx.font = "40pt Arial";
@@ -29,83 +29,94 @@ var insert = true;
 // orb prototype
 var orb = {
     w:15,
-    h:15,    
+    h:15,
     draw : function () {
-        
+
         ctx.beginPath();
         ctx.rect(this.x, this.y, this.w, this.h);
 
         ctx.closePath();
-                        ctx.stroke();
+        ctx.stroke();
 
-    },   
+    },
     fill : function () {
         ctx.fillStyle = "rgb(200,0,0)";
 
         ctx.fillRect(this.x, this.y, this.w, this.h);
-     
+
     }
 }
 var in_sel = document.getElementById('in_sel');
-in_sel.onclick = function (event) {
+in_sel.onclick = function () {
     insert = !insert;
     if (insert) {
         in_sel.value = "Switch to select";
-    }
-    else {
+    } else {
         in_sel.value = "Switch to insert";
     }
 
 }
 
 document.getElementById('quadtree').onclick = function (event){
-	
+
     //get x y coords of the cursor
     pos_x = event.offsetX?(event.offsetX):event.pageX-document.getElementById("quadtree").offsetLeft;
     pos_y = event.offsetY?(event.offsetY):event.pageY-document.getElementById("quadtree").offsetTop;
-    
-    if (event.button == 3) {alert(event.button); }
-    
-    if (insert) {
-    
-        //create an orb with cursor coordinates
-        var o = Object.create(orb);
-        o.x = pos_x;
-        o.y = pos_y;
-        objects.push(o);
-        tree.insert(o);
-        var objgroup = tree.retrieve(o);
 
-        } 
-    else {
-        var objgroup = tree.retrieve({ x: pos_x, y: pos_y });
+    if (event.button == 3) {
+        alert(event.button);
     }
-    var len = objects.length;
-    var grplen = objgroup.length;
-    var quadcount = 0;
-    
+
     // clear canvas
     ctx.beginPath();
     ctx.clear();
     ctx.closePath();
-    
-    
-    for (var i = 0; i <len; i++) {
-        objects[i].draw();  // draw the objects
 
-        // count quadtree collision checks
-        var tmp = tree.retrieve(objects[i]);
-        var tmplen = tmp.length-1;
-        quadcount += tmplen;
+    for (var i = 0; i < objects.length; i++) {
+        objects[i].draw();  // draw the objects
+    }
+    
+    var grplen = 0;
+    // fill out all objects of the current group
+    if (insert) {
+        //create an orb with cursor coordinates
+        var o = Object.create(orb);
+        o.x = pos_x;
+        o.y = pos_y;
+        o.draw();
+        objects.push(o);        
+        tree.insert(o);
+        tree.retrieve(o, function(item) {
+            item.fill();
+            ++grplen;
+        });
+    } else {
+        tree.retrieve({
+            x: pos_x,
+            y: pos_y,
+            h : 0,
+            w : 0
+        }, function(item) {
+            item.fill();
+            ++grplen;
+        });
     }
 
-    // fill out all objects of the current group
-    for (i = 0; i < grplen; i++) {
-        objgroup[i].fill();
-    }    
+    var quadcount = 0;
+    var len = objects.length;
 
-    drawRegions(tree.root);
+    for (i = 0; i < len; i++) {
+        // count quadtree collision checks
+        tree.retrieve(objects[i], function() {
+            ++quadcount;
+        });
+        --quadcount;
+    }
+
     
+    
+    drawRegions(tree.root);
+
     // display stats
     document.getElementById('objtotal').innerHTML = len;
     document.getElementById('objgroup').innerHTML = grplen;
@@ -121,16 +132,16 @@ document.getElementById('clear').onclick = function () {
     ctx.fillStyle='rgb(0,0,0)';
     ctx.fillText("Click me!", 135, ctx.height/2);
     drawRegions(tree.root);
-    
+
     document.getElementById('objtotal').innerHTML = 0;
     document.getElementById('objgroup').innerHTML = 0;
     document.getElementById('brute').innerHTML = 0;
     document.getElementById('quad').innerHTML = 0;
 }
 
-// draws the region-frames 
+// draws the region-frames
 var drawRegions = function (anode) {
- 
+
     var nodes = anode.getNodes();
     if (nodes) {
         for (var i = 0; i < nodes.length; i++) {
@@ -139,6 +150,6 @@ var drawRegions = function (anode) {
     }
     ctx.beginPath();
     ctx.rect(anode.x, anode.y, anode.w, anode.h);
-    ctx.stroke();   
+    ctx.stroke();
     ctx.closePath();
 }
