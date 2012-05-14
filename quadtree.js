@@ -1,5 +1,6 @@
 /*
  * QuadTree Implementation in JavaScript
+ * @author: silflow <https://github.com/silflow>
  *
  * Usage:
  * To create a new empty Quadtree, do this:
@@ -27,9 +28,7 @@
  * tree.clear() removes all items from the quadtree.
  */
 
-// all quadtree object are stored in this global var
-var QUAD = {};
-
+var QUAD = {}; // global var for the quadtree
 
 QUAD.init = function(args) {
 
