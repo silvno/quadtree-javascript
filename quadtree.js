@@ -62,8 +62,7 @@ QUAD.init = function(args) {
             depth : depth, // depth level of the node
 
             /**
-             * Returns an array of all objects, that are in the same region or
-             * in overlapping regions. For each item the callback is called.
+             * iterates all items that match the selector and invokes the supplied callback on them.
              */
             retrieve : function (item, callback) {
                 for (var i = 0; i < items.length; ++i) {
@@ -223,8 +222,8 @@ QUAD.init = function(args) {
             }
         },
 
-        retrieve : function (item, callback) {
-            return this.root.retrieve(item, callback);
+        retrieve : function (selector, callback) {
+            return this.root.retrieve(selector, callback);
         },
 
         clear : function () {
