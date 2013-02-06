@@ -49,8 +49,8 @@ QUAD.init = function(args) {
      */
     node = function (x, y, w, h, depth, maxChildren, maxDepth) {
 
-        var children = [], // holds all items
-            nodes = []; // holds all subnodes
+        var items = [], // holds all items
+            nodes = []; // holds all child nodes
 
         // returns a fresh node object
         return {
@@ -66,8 +66,8 @@ QUAD.init = function(args) {
              * in overlapping regions. For each item the callback is called.
              */
             retrieve : function (item, callback) {
-                for (var i = 0; i < children.length; ++i) {
-                    callback(children[i]);
+                for (var i = 0; i < items.length; ++i) {
+                    callback(items[i]);
                 }
                 // check if node has subnodes
                 if (nodes.length) {
@@ -99,14 +99,14 @@ QUAD.init = function(args) {
                     if (i === PARENT) {
                         // if the item does not fit, push it into the
                         // children array
-                        children.push(item);
+                        items.push(item);
                     } else {
                         nodes[i].insert(item);
                     }
                 } else {
-                    children.push(item);
+                    items.push(item);
                     //divide the node if maxChildren is exceeded and maxDepth is not reached
-                    if (children.length > maxChildren && this.depth < maxDepth) {
+                    if (items.length > maxChildren && this.depth < maxDepth) {
                         this.divide();
                     }
                 }
@@ -172,8 +172,8 @@ QUAD.init = function(args) {
                 // create bottom right node
                 nodes.push(node(this.x + width, this.y + height, width, height, childrenDepth, maxChildren, maxDepth));
 
-                oldChildren = children;
-                children = [];
+                oldChildren = items;
+                items = [];
                 for (i = 0; i < oldChildren.length; i++) {
                     this.insert(oldChildren[i]);
                 }
@@ -184,7 +184,7 @@ QUAD.init = function(args) {
              */
             clear : function () {
                 for (var i = 0; i < nodes.length; i++) nodes[i].clear();
-                children.length = 0;
+                items.length = 0;
                 nodes.length = 0;
             },
 

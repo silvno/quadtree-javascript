@@ -1,5 +1,20 @@
 /* f***ing grusige code, aber isch jo nur e demo :) */
 
+function init_canvas(elementId) {
+    var canvas, ctx;
+    try {
+        canvas = document.getElementById(elementId);
+        ctx = canvas.getContext('2d');  
+    }  catch(e) {
+        return false;
+    }    
+    ctx.height = canvas.height;
+    ctx.width = canvas.width;
+    ctx.clear = function() {
+        this.clearRect(0,0,this.canvas.width,this.canvas.height)
+    }   
+    return ctx;
+}
 
 //convenience
 function addEvent(el, evt, fn) {

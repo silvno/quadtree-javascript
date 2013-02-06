@@ -131,14 +131,10 @@ EX1.CD = (function () {
             for (i = 0; i < n; i++) {
                 orb = EX1.elements[i];
                 // get all elements in the same region as orb 
-                region = EX1.tree.retrieve(orb);
-                m = region.length;
-                // iterate the region and check for collisions
-                for (k = 0; k < m; k++) {
-                    this.detectCollision(orb, region[k]);
-                    // increase check counter
+                region = EX1.tree.retrieve(orb, function(item) {
+                    EX1.CD.detectCollision(orb, item);
                     nChecks++;
-                }  
+                });
             }
         },
         
