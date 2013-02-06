@@ -113,8 +113,6 @@ document.getElementById('quadtree').onclick = function (event){
         --quadcount;
     }
 
-    
-    
     drawRegions(tree.root);
 
     // display stats
@@ -140,16 +138,16 @@ document.getElementById('clear').onclick = function () {
 }
 
 // draws the region-frames
-var drawRegions = function (anode) {
+var drawRegions = function (node) {
 
-    var nodes = anode.getNodes();
+    var nodes = node.getNodes();
     if (nodes) {
         for (var i = 0; i < nodes.length; i++) {
             drawRegions(nodes[i]);
         }
     }
     ctx.beginPath();
-    ctx.rect(anode.x, anode.y, anode.w, anode.h);
+    ctx.rect(node.x, node.y, node.w, node.h);
     ctx.stroke();
     ctx.closePath();
 }
