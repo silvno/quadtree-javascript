@@ -19,10 +19,10 @@
  *}
  *
  * API:
- * tree.insert() takes arrays or single items
- * every item must have a .x and .y property. if not, the tree will break.
+ * tree.insert() accepts arrays or single items
+ * every item must have a .x, .y, .w, and .h property. if they don't, the tree will break.
  *
- * tree.retrieve(item, callback) calls the callback for all objects that are in
+ * tree.retrieve(selector, callback) calls the callback for all objects that are in
  * the same region or overlapping.
  *
  * tree.clear() removes all items from the quadtree.
@@ -30,7 +30,7 @@
 
 var QUAD = {}; // global var for the quadtree
 
-QUAD.init = function(args) {
+QUAD.init = function (args) {
 
     var node;
     var TOP_LEFT     = 0;
@@ -65,13 +65,14 @@ QUAD.init = function(args) {
              * iterates all items that match the selector and invokes the supplied callback on them.
              */
             retrieve : function (item, callback) {
-                for (var i = 0; i < items.length; ++i) {
+				var i;
+                for (i = 0; i < items.length; i++) {
                     callback(items[i]);
                 }
                 // check if node has subnodes
                 if (nodes.length) {
                     // call retrieve on all matching subnodes
-                    this.findOverlappingNodes(item, function(dir) {
+                    this.findOverlappingNodes(item, function (dir) {
                         nodes[dir].retrieve(item, callback);
                     });
                 }
@@ -94,7 +95,7 @@ QUAD.init = function(args) {
 
                 if (nodes.length) {
                     // get the node in which the item fits best
-                    i = this.findInsertNode(item)
+                    i = this.findInsertNode(item);
                     if (i === PARENT) {
                         // if the item does not fit, push it into the
                         // children array
@@ -117,15 +118,23 @@ QUAD.init = function(args) {
             findInsertNode : function (item) {
                 // left
                 if (item.x + item.w < x + (w / 2)) {
-                    if (item.y + item.h < y + (h / 2)) return TOP_LEFT;
-                    if (item.y >= y + (h / 2)) return BOTTOM_LEFT;
+                    if (item.y + item.h < y + (h / 2)) {
+						return TOP_LEFT;
+					}
+                    if (item.y >= y + (h / 2)) {
+						return BOTTOM_LEFT;
+					}
                     return PARENT;
                 }
 
                 // right
                 if (item.x >= x + (w / 2)) {
-                    if (item.y + item.h < y + (h / 2)) return TOP_RIGHT;
-                    if (item.y >= y + (h / 2)) return BOTTOM_RIGHT;
+                    if (item.y + item.h < y + (h / 2)) {
+						return TOP_RIGHT;
+					}
+                    if (item.y >= y + (h / 2)) {
+						return BOTTOM_RIGHT;
+					}
                     return PARENT;
                 }
 
@@ -139,13 +148,21 @@ QUAD.init = function(args) {
             findOverlappingNodes : function (item, callback) {
                 // left
                 if (item.x < x + (w / 2)) {
-                    if (item.y < y + (h / 2)) callback(TOP_LEFT);
-                    if (item.y + item.h >= y + h/2) callback(BOTTOM_LEFT);
+                    if (item.y < y + (h / 2)) {
+						callback(TOP_LEFT);
+					}
+                    if (item.y + item.h >= y + h / 2) {
+						callback(BOTTOM_LEFT);
+					}
                 }
                 // right
                 if (item.x + item.w >= x + (w / 2)) {
-                    if (item.y < y + (h / 2)) callback(TOP_RIGHT);
-                    if (item.y + item.h >= y + h/2) callback(BOTTOM_RIGHT);
+                    if (item.y < y + (h / 2)) {
+						callback(TOP_RIGHT);
+					}
+                    if (item.y + item.h >= y + h / 2) {
+						callback(BOTTOM_RIGHT);
+					}
                 }
             },
 
@@ -155,10 +172,8 @@ QUAD.init = function(args) {
              * children.
              */
             divide : function () {
-
                 var width, height, i, oldChildren;
                 var childrenDepth = this.depth + 1;
-                
                 // set dimensions of the new nodes
                 width = (w / 2);
                 height = (h / 2);
@@ -182,7 +197,10 @@ QUAD.init = function(args) {
              * Clears the node and all its subnodes.
              */
             clear : function () {
-                for (var i = 0; i < nodes.length; i++) nodes[i].clear();
+				var i;
+                for (i = 0; i < nodes.length; i++) {
+					nodes[i].clear();
+				}
                 items.length = 0;
                 nodes.length = 0;
             },
