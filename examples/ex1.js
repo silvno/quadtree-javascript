@@ -5,14 +5,14 @@ EX1.orb = {
     draw : function () {
         EX1.ctx.strokeStyle = "rgb(0,0,0)";
         EX1.ctx.beginPath();
-        EX1.ctx.rect(this.x - (this.w / 2), this.y - (this.h / 2), this.w, this.h);
+        EX1.ctx.rect(this.x, this.y, this.w, this.h);
         EX1.ctx.closePath();
         EX1.ctx.stroke();
     },
     
     fill : function () {
         EX1.ctx.fillStyle = "rgb(150,0,0)";
-        EX1.ctx.fillRect(this.x - (this.w / 2), this.y - (this.h / 2), this.w, this.h);
+        EX1.ctx.fillRect(this.x, this.y, this.w, this.h);
     },
     move : function (dt) {
         this.x += (this.dx / 1000) * dt;
