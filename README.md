@@ -39,8 +39,8 @@ takes arrays or single items. every item must have a .x and .y property. if not,
 iterates all items that match the selector and returns them in an array. For example:
 ```javascript
     var selector = {
-        x : topLeft coordinate,
-        y : topRight coordinate,
+        x : selection x coordinate,
+        y : selection y coordinate,
         w : selection width
         h : selection height
     }
