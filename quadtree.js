@@ -62,19 +62,24 @@ QUAD.init = function(args) {
             depth : depth, // depth level of the node
 
             /**
-             * iterates all items that match the selector and invokes the supplied callback on them.
+             * iterates all items that match the selector and returns them in 
+              * an array.
              */
-            retrieve : function (item, callback) {
-                for (var i = 0; i < items.length; ++i) {
-                    callback(items[i]);
-                }
+            retrieve : function (item) {
+                // get a copy of the items array
+                var out = items.slice(0);
+                
                 // check if node has subnodes
                 if (nodes.length) {
                     // call retrieve on all matching subnodes
-                    this.findOverlappingNodes(item, function(dir) {
-                        nodes[dir].retrieve(item, callback);
-                    });
+                    var regions = this.findOverlappingNodes(item);
+                    for(var q in regions) {
+                        var dir = regions[q];
+                        out = out.concat(nodes[dir].retrieve(item));
+                    }
                 }
+                
+                return out;
             },
 
             /**
@@ -134,19 +139,35 @@ QUAD.init = function(args) {
 
             /**
              * Finds the regions the item overlaps with. See constants defined
-             * above. The callback is called for every region the item overlaps.
+             * above. Returns an array of overlapping regions.
              */
-            findOverlappingNodes : function (item, callback) {
+            findOverlappingNodes : function (item) {
+                var regions = [];
+                
                 // left
                 if (item.x < x + (w / 2)) {
-                    if (item.y < y + (h / 2)) callback(TOP_LEFT);
-                    if (item.y + item.h >= y + h/2) callback(BOTTOM_LEFT);
+                    if (item.y < y + (h / 2)) {
+                        //callback(TOP_LEFT);
+                        regions.push(TOP_LEFT);
+                    }
+                    if (item.y + item.h >= y + h/2) {
+                        //callback(BOTTOM_LEFT);
+                        regions.push(BOTTOM_LEFT);
+                    }
                 }
                 // right
                 if (item.x + item.w >= x + (w / 2)) {
-                    if (item.y < y + (h / 2)) callback(TOP_RIGHT);
-                    if (item.y + item.h >= y + h/2) callback(BOTTOM_RIGHT);
+                    if (item.y < y + (h / 2)) {
+                        //callback(TOP_RIGHT);
+                        regions.push(TOP_RIGHT);
+                    }
+                    if (item.y + item.h >= y + h/2) {
+                        //callback(BOTTOM_RIGHT);
+                        regions.push(BOTTOM_RIGHT);
+                    }
                 }
+                
+                return regions;
             },
 
             /**
@@ -222,8 +243,8 @@ QUAD.init = function(args) {
             }
         },
 
-        retrieve : function (selector, callback) {
-            return this.root.retrieve(selector, callback);
+        retrieve : function (item) {
+            return this.root.retrieve(item);
         },
 
         clear : function () {
