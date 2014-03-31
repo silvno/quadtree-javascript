@@ -64,15 +64,19 @@ QUAD.init = function(args) {
             /**
              * iterates all items that match the selector and invokes the supplied callback on them.
              */
-            retrieve : function (item, callback) {
+            retrieve: function(item, callback, instance) {
                 for (var i = 0; i < items.length; ++i) {
-                    callback(items[i]);
+                    if (instance != null) {
+                        callback.call(instance, items[i]);
+                    } else {
+                        callback(items[i])
+                    }
                 }
                 // check if node has subnodes
                 if (nodes.length) {
                     // call retrieve on all matching subnodes
                     this.findOverlappingNodes(item, function(dir) {
-                        nodes[dir].retrieve(item, callback);
+                        nodes[dir].retrieve(item, callback, instance);
                     });
                 }
             },
@@ -222,8 +226,8 @@ QUAD.init = function(args) {
             }
         },
 
-        retrieve : function (selector, callback) {
-            return this.root.retrieve(selector, callback);
+        retrieve : function (selector, callback, instance) {
+            return this.root.retrieve(selector, callback, instance);
         },
 
         clear : function () {
