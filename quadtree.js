@@ -64,16 +64,15 @@ QUAD.init = function (args) {
             /**
              * iterates all items that match the selector and invokes the supplied callback on them.
              */
-            retrieve : function (item, callback) {
-				var i;
-                for (i = 0; i < items.length; i++) {
-                    callback(items[i]);
+            retrieve: function(item, callback, instance) {
+                for (var i = 0; i < items.length; ++i) {
+                   (instance) ? callback.call(instance, items[i]) : callback(items[i]); 
                 }
                 // check if node has subnodes
                 if (nodes.length) {
                     // call retrieve on all matching subnodes
-                    this.findOverlappingNodes(item, function (dir) {
-                        nodes[dir].retrieve(item, callback);
+                    this.findOverlappingNodes(item, function(dir) {
+                        nodes[dir].retrieve(item, callback, instance);
                     });
                 }
             },
@@ -230,7 +229,6 @@ QUAD.init = function (args) {
 
             if (item instanceof Array) {
                 len = item.length;
-
                 for (i = 0; i < len; i++) {
                     this.root.insert(item[i]);
                 }
@@ -240,8 +238,8 @@ QUAD.init = function (args) {
             }
         },
 
-        retrieve : function (selector, callback) {
-            return this.root.retrieve(selector, callback);
+        retrieve : function (selector, callback, instance) {
+            return this.root.retrieve(selector, callback, instance);
         },
 
         clear : function () {
